@@ -16,9 +16,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val list = buildList {
-            for (i in 0..128) {
+            for (i in 0..25) {
                 add(IntViewData(i))
-                add(CharViewData(' ' + i))
+                add(CharViewData('A' + i))
+                add(ColorViewData(ColorViewData.COLOR_LIST[i % ColorViewData.COLOR_LIST.size]))
             }
         }
         adapter.submitList(list)
