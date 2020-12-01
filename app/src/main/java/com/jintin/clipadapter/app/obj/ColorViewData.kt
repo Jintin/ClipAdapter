@@ -31,8 +31,9 @@ class ColorViewData(
     }
 }
 
-class ColorHolder(private val binding: AdapterColorBinding) :
-    ClipViewHolder<Int>(binding.root) {
+private class ColorHolder(
+    private val binding: AdapterColorBinding
+) : ClipViewHolder<Int>(binding.root) {
 
     override fun onBind(value: Int) {
         binding.value.setTextColor(value)

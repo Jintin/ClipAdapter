@@ -31,51 +31,55 @@ dependencies {
 
 1. Create you `ViewHolder` with `ClipViewHolder` as base class, ie:
 ```kotlin
-class StringHolder(itemView: View) : ClipViewHolder<String>(itemView) {
+private class MyObjectHolder(itemView: View) : ClipViewHolder<MyObject>(itemView) {
 
     private val title = itemView.findViewById<TextView>(R.id.title)
 
-    override fun onBind(value: String) {
+    override fun onBind(value: MyObject) {
         title.text = value.toString()
+    }
+
+    companion object {
+        fun provider(): ViewHolderProvider<MyObject> = {
+            MyObjectHolder(
+                LayoutInflater.from(it.context)
+                    .inflate(R.layout.adapter_my_object, it, false)
+            )
+        }
     }
 }
 ```
 
-2. Wrap your data with `ClipViewData` interface and also provide how to create corresponding `ViewHolder`, ie:
+2. Wrap your data with `ClipViewData` interface and also link to creation of corresponding `ViewHolder`, ie:
 
 ```kotlin
-class StringViewData(override val value: String) : ClipViewData<String> {
-
-    override val holderProvider: ViewHolderProvider<String> = {
-        StringHolder(
-            LayoutInflater.from(it.context)
-                .inflate(R.layout.adapter_string, it, false)
-        )
-    }
-}
+class MyObjectViewData(
+    override val value: MyObject,
+    override val holderProvider: ViewHolderProvider<MyObject> = MyObjectHolder.provider()
+) : ClipViewData<MyObject>
 ```
 
 It's also possible to use `ViewBinding`, just change your `ViewHolder` constructor from `View` to the correct ViewBinding and generate the `ViewHolder` via the same ViewBinding, ie:
 
 ```kotlin
-class StringViewData(override val value: String) : ClipViewData<String> {
+private class MyObjectHolder(
+    private val binding: AdapterMyObjectBinding
+) : ClipViewHolder<MyObject>(binding.root) {
 
-    override val holderProvider: ViewHolderProvider<String> = {
-        StringHolder(
-            AdapterStringBinding.inflate(
-                LayoutInflater.from(it.context),
-                it,
-                false
-            )
-        )
+    override fun onBind(value: MyObject) {
+        //...
     }
-}
 
-class StringHolder(private val binding: AdapterStringBinding) :
-    ClipViewHolder<String>(binding.root) {
-
-    override fun onBind(value: String) {
-        binding.title.text = value
+    companion object {
+        fun provider(): ViewHolderProvider<MyObject> = {
+            MyObjectHolder(
+                AdapterMyObjectBinding.inflate(
+                    LayoutInflater.from(it.context),
+                    it,
+                    false
+                )
+            )
+        }
     }
 }
 ```

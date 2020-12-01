@@ -13,7 +13,7 @@ class CharViewData(
     override val holderProvider: ViewHolderProvider<Char> = CharHolder.provider()
 ) : ClipViewData<Char>
 
-class CharHolder(itemView: View) : ClipViewHolder<Char>(itemView) {
+private class CharHolder(itemView: View) : ClipViewHolder<Char>(itemView) {
 
     private val title = itemView.findViewById<TextView>(R.id.title)
 
