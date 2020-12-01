@@ -5,23 +5,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jintin.clipadapter.ClipAdapter
+import com.jintin.clipadapter.ClipViewData
+import com.jintin.clipadapter.app.obj.CharViewData
+import com.jintin.clipadapter.app.obj.ColorViewData
+import com.jintin.clipadapter.app.obj.StringViewData
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val adapter = ClipAdapter()
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val adapter = ClipAdapter()
+        adapter.submitList(getData())
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        val list = buildList {
-            for (i in 0..25) {
-                add(IntViewData(i))
-                add(CharViewData('A' + i))
-                add(ColorViewData(ColorViewData.COLOR_LIST[i % ColorViewData.COLOR_LIST.size]))
-            }
+    }
+
+    private fun getData(): List<ClipViewData<*>> {
+        val list = mutableListOf<ClipViewData<*>>()
+        for (i in 0..25) {
+            list.add(StringViewData("#$i Item"))
+            list.add(CharViewData('A' + i))
+            list.add(ColorViewData.create(i))
         }
-        adapter.submitList(list)
+        return list.toList()
     }
 }

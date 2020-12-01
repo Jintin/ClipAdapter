@@ -2,9 +2,11 @@ package com.jintin.clipadapter
 
 import android.view.ViewGroup
 
+interface ClipViewData<T> {
 
-interface ClipViewData {
+    val value: T
 
-    val viewHolder: ViewHolderProvider
+    val holderProvider: ViewHolderProvider<T>
 }
-typealias ViewHolderProvider = (parent: ViewGroup) -> ClipViewHolder<*>
+
+typealias ViewHolderProvider<T> = (parent: ViewGroup) -> ClipViewHolder<T>

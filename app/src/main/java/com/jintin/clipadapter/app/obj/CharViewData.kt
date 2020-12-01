@@ -1,4 +1,4 @@
-package com.jintin.clipadapter.app
+package com.jintin.clipadapter.app.obj
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,25 +6,23 @@ import android.widget.TextView
 import com.jintin.clipadapter.ClipViewData
 import com.jintin.clipadapter.ClipViewHolder
 import com.jintin.clipadapter.ViewHolderProvider
+import com.jintin.clipadapter.app.R
 
-data class CharViewData(val value: Char) : ClipViewData {
-    override val viewHolder: ViewHolderProvider = {
+class CharViewData(override val value: Char) : ClipViewData<Char> {
+
+    override val holderProvider: ViewHolderProvider<Char> = {
         CharHolder(
-            LayoutInflater.from(it.context).inflate(
-                R.layout.adapter_char,
-                it,
-                false
-            )
+            LayoutInflater.from(it.context)
+                .inflate(R.layout.adapter_char, it, false)
         )
     }
 }
 
-class CharHolder(itemView: View) :
-    ClipViewHolder<CharViewData>(itemView) {
+class CharHolder(itemView: View) : ClipViewHolder<Char>(itemView) {
 
-    private val charValue = itemView.findViewById<TextView>(R.id.char_value)
+    private val title = itemView.findViewById<TextView>(R.id.title)
 
-    override fun onBind(viewData: CharViewData) {
-        charValue.text = viewData.value.toString()
+    override fun onBind(value: Char) {
+        title.text = value.toString()
     }
 }

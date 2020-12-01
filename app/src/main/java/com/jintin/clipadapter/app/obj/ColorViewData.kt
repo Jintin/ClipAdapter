@@ -1,4 +1,4 @@
-package com.jintin.clipadapter.app
+package com.jintin.clipadapter.app.obj
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import com.jintin.clipadapter.ViewHolderProvider
 import com.jintin.clipadapter.app.databinding.AdapterColorBinding
 import java.util.*
 
-data class ColorViewData(val value: Int) : ClipViewData {
+class ColorViewData(override val value: Int) : ClipViewData<Int> {
 
-    override val viewHolder: ViewHolderProvider = {
+    override val holderProvider: ViewHolderProvider<Int> = {
         ColorHolder(
             AdapterColorBinding.inflate(
                 LayoutInflater.from(it.context),
@@ -21,18 +21,17 @@ data class ColorViewData(val value: Int) : ClipViewData {
     }
 
     class ColorHolder(private val binding: AdapterColorBinding) :
-        ClipViewHolder<ColorViewData>(binding.root) {
+        ClipViewHolder<Int>(binding.root) {
 
-        override fun onBind(viewData: ColorViewData) {
-            binding.root.setBackgroundColor(viewData.value)
+        override fun onBind(value: Int) {
+            binding.value.setTextColor(value)
             binding.value.text =
-                Integer.toHexString(viewData.value).toUpperCase(Locale.ENGLISH)
+                Integer.toHexString(value).toUpperCase(Locale.ENGLISH)
         }
     }
 
     companion object {
-        val COLOR_LIST = listOf(
-            Color.BLACK,
+        private val COLOR_LIST = listOf(
             Color.GRAY,
             Color.LTGRAY,
             Color.RED,
@@ -42,5 +41,9 @@ data class ColorViewData(val value: Int) : ClipViewData {
             Color.CYAN,
             Color.MAGENTA
         )
+
+        fun create(index: Int): ColorViewData {
+            return ColorViewData(COLOR_LIST[index % COLOR_LIST.size])
+        }
     }
 }
