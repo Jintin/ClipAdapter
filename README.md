@@ -35,7 +35,7 @@ class StringHolder(itemView: View) : ClipViewHolder<String>(itemView) {
 
     private val title = itemView.findViewById<TextView>(R.id.title)
 
-    override fun onBind(value: Char) {
+    override fun onBind(value: String) {
         title.text = value.toString()
     }
 }
