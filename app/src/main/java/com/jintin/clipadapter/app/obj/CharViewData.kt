@@ -8,15 +8,10 @@ import com.jintin.clipadapter.ClipViewHolder
 import com.jintin.clipadapter.ViewHolderProvider
 import com.jintin.clipadapter.app.R
 
-class CharViewData(override val value: Char) : ClipViewData<Char> {
-
-    override val holderProvider: ViewHolderProvider<Char> = {
-        CharHolder(
-            LayoutInflater.from(it.context)
-                .inflate(R.layout.adapter_char, it, false)
-        )
-    }
-}
+class CharViewData(
+    override val value: Char,
+    override val holderProvider: ViewHolderProvider<Char> = CharHolder.provider()
+) : ClipViewData<Char>
 
 class CharHolder(itemView: View) : ClipViewHolder<Char>(itemView) {
 
@@ -24,5 +19,14 @@ class CharHolder(itemView: View) : ClipViewHolder<Char>(itemView) {
 
     override fun onBind(value: Char) {
         title.text = value.toString()
+    }
+
+    companion object {
+        fun provider(): ViewHolderProvider<Char> = {
+            CharHolder(
+                LayoutInflater.from(it.context)
+                    .inflate(R.layout.adapter_char, it, false)
+            )
+        }
     }
 }
