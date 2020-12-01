@@ -1,5 +1,8 @@
 # ClipAdapter
 
+[![CircleCI](https://circleci.com/gh/Jintin/ClipAdapter.svg?style=shield)](https://circleci.com/gh/Jintin/ClipAdapter)
+[![jitpack](https://jitpack.io/v/Jintin/ClipAdapter.svg)](https://jitpack.io/#Jintin/ClipAdapter)
+
 ClipAdapter help you to build scalable Adapter easily.
 Though we have things like ConcatAdapter today to help us merge different Adapter into one, it still not flexible enough for us to randomly mix different Data/ViewHolder into same Adapter without adding new viewType and also how to create ViewHolder.
 
