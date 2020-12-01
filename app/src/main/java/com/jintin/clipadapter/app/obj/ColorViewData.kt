@@ -9,6 +9,27 @@ import com.jintin.clipadapter.app.databinding.AdapterColorBinding
 import java.util.*
 
 data class ColorViewData(val value: Int) : ClipViewData {
+
+    override val viewHolder: ViewHolderProvider = {
+        ColorHolder(
+            AdapterColorBinding.inflate(
+                LayoutInflater.from(it.context),
+                it,
+                false
+            )
+        )
+    }
+
+    class ColorHolder(private val binding: AdapterColorBinding) :
+        ClipViewHolder<ColorViewData>(binding.root) {
+
+        override fun onBind(viewData: ColorViewData) {
+            binding.root.setBackgroundColor(viewData.value)
+            binding.value.text =
+                Integer.toHexString(viewData.value).toUpperCase(Locale.ENGLISH)
+        }
+    }
+
     companion object {
         val COLOR_LIST = listOf(
             Color.BLACK,
@@ -21,26 +42,5 @@ data class ColorViewData(val value: Int) : ClipViewData {
             Color.CYAN,
             Color.MAGENTA
         )
-    }
-
-    override val viewHolder: ViewHolderProvider = {
-        ColorHolder(
-            AdapterColorBinding.inflate(
-                LayoutInflater.from(it.context),
-                it,
-                false
-            )
-        )
-    }
-}
-
-
-class ColorHolder(private val binding: AdapterColorBinding) :
-    ClipViewHolder<ColorViewData>(binding.root) {
-
-    override fun onBind(viewData: ColorViewData) {
-        binding.root.setBackgroundColor(viewData.value)
-        binding.value.text =
-            Integer.toHexString(viewData.value).toUpperCase(Locale.ENGLISH)
     }
 }
